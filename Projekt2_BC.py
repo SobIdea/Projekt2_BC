@@ -38,7 +38,8 @@ def input_seq() -> str:
         print('Vstup musí být číslo.') if not in_n.isnumeric() else None
         print('Číslo musí mýt 4 znaky dlouhé.') if len(in_n) != 4 else None
         print('Číslo nesmí zažínat nulou.') if in_n[0] == "0" else None
-        incorrect_input = False if in_n.isnumeric() and len(in_n) == 4 and in_n[0] != "0" else True
+        print('Kazdý znak musí být unikátní.') if len(list(in_n)) != len(set(in_n)) else None
+        incorrect_input = False if in_n.isnumeric() and len(in_n) == 4 and in_n[0] != "0" and len(list(in_n)) == len(set(in_n)) else True
     return in_n
 
 def ulozeni_do_txt(file_name: str, guesses: int, el_time: float) -> None:
@@ -72,8 +73,11 @@ def read_and_eval(file_name: str)->list:
     return [avr_attempts, avr_time]
 
 def hra():
-    hra_bezi = True
-    random_numb = random.randint(1000, 9999)
+    hra_bezi, incorrect_rnd, random_numb = True, True, 1111
+    while incorrect_rnd:
+        if len(list(str(random_numb))) != len(set(str(random_numb))):
+            random_numb = random.randint(1000, 9999)
+        else: incorrect_rnd = False
     vypsani_hlavicky()
     nGuess = 0
     while hra_bezi:
